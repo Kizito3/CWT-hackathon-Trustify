@@ -1,6 +1,4 @@
 import instance from "@/api/axios";
-// import StatCard from "@/components/StatCard";
-// import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -114,7 +112,7 @@ export default function Dashboard() {
         </p>
       </header>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="font-bold text-3xl">Your Wallets</h1>
+        <h1 className="font-bold lg:text-3xl text-base">Your Wallets</h1>
         <button
           className="bg-[#2563EB] px-6 py-2 text-white rounded-2xl"
           onClick={() => setShowCreateModal(true)}
@@ -124,24 +122,30 @@ export default function Dashboard() {
       </div>
 
       {wallets.length === 0 ? (
-        <div className="empty-state">
-          <h3>No wallets yet</h3>
-          <p>Create your first wallet to start tracking your finances.</p>
-          <button
-            className="btn-primary"
-            onClick={() => setShowCreateModal(true)}
-          >
-            Create Your First Wallet
-          </button>
+        <div className="bg-white p-8 rounded-2xl">
+          <div className="flex flex-col justify-center items-center">
+            <h1 className="lg:text-3xl text-lg font-bold mb-4">
+              No wallets yet
+            </h1>
+            <p className="text-sm text-gray-500">
+              Create your first wallet to start tracking your finances.
+            </p>
+            <button
+              className="bg-[#2563EB] whitespace-nowrap py-2 px-5 rounded-full text-white mt-5"
+              onClick={() => setShowCreateModal(true)}
+            >
+              + Create Your First Wallet
+            </button>
+          </div>
         </div>
       ) : (
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid lg:grid-cols-3 gap-5">
           {wallets.map((wallet: walletsProps) => (
             <div key={wallet._id} className="bg-white p-6 rounded-2xl">
-              <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold ">{wallet.name}</h1>
+              <div className="flex justify-between items-center lg:mb-8  mb-4">
+                <h1 className="lg:text-3xl font-bold text-sm">{wallet.name}</h1>
                 <button
-                  className=" w-8 h-8 rounded-full flex justify-center items-center bg-red-400 cursor-pointer"
+                  className=" lg:w-8 lg:h-8 w-7 h-7 rounded-full flex justify-center items-center bg-red-400 cursor-pointer"
                   onClick={() => handleDeleteWallet(wallet._id)}
                   title="Delete wallet"
                 >
@@ -156,7 +160,7 @@ export default function Dashboard() {
                   </svg>
                 </button>
               </div>
-              <p className="text-[#2563EB] text-4xl font-bold mb-2">
+              <p className="text-[#2563EB] lg:text-4xl text-2xl font-bold mb-2">
                 {formatCurrency(wallet.currentBalance)}
               </p>
               <p className="text-sm font-semibold text-gray-500 mb-4">
@@ -164,7 +168,7 @@ export default function Dashboard() {
               </p>
               <Link
                 to={`/dashboard/wallet/${wallet._id}`}
-                className="w-full justify-center items-center flex uppercase bg-[#2563EB] py-2 text-white rounded-full"
+                className="w-full justify-center items-center lg:text-base text-xs flex uppercase bg-[#2563EB] py-2 text-white rounded-full"
               >
                 View Details
               </Link>

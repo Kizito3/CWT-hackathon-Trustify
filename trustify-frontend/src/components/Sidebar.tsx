@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { LayoutGrid, Wallet, LayoutPanelLeft } from "lucide-react";
+import { LayoutPanelLeft } from "lucide-react";
 
 const Sidebar = () => {
   return (

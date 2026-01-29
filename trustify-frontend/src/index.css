@@ -31,6 +31,14 @@ h1 {
   padding: 2rem;
 }
 
+.transaction-amount.inflow {
+  color: var(--success-color);
+}
+
+.transaction-amount.outflow {
+  color: var(--danger-color);
+}
+
 .read-only-badge {
   display: inline-block;
   background: var(--warning-color);

@@ -120,11 +120,11 @@ export default function MonitorView() {
                 {transactions.map((tx: transactionProps) => (
                   <div
                     key={tx._id}
-                    className="flex items-center justify-between group cursor-pointer hover:bg-slate-50/50 p-2 rounded-2xl transition-colors"
+                    className="flex items-center gap-6 justify-between group cursor-pointer hover:bg-slate-50/50 p-2 rounded-2xl transition-colors"
                   >
                     <div className="flex flex-col gap-1">
                       <span
-                        className={`flex items-center gap-2 font-bold text-sm uppercase tracking-wider ${
+                        className={`flex items-center lg:text-base gap-2 font-bold text-xs uppercase tracking-wider ${
                           tx.type === "inflow"
                             ? "text-emerald-500"
                             : "text-rose-500"
@@ -142,7 +142,7 @@ export default function MonitorView() {
 
                     <div className="text-right flex flex-col gap-1">
                       <span
-                        className={`text-lg font-bold ${
+                        className={`lg:text-lg font-bold text-sm ${
                           tx.type === "inflow"
                             ? "text-emerald-600"
                             : "text-slate-900"

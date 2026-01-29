@@ -202,13 +202,15 @@ export default function Wallet() {
 
       {error && <div className="error-message">{error}</div>}
 
-      <div className="flex items-center gap-4">
-        <div className="flex justify-center items-center flex-col bg-white w-full py-6 rounded-2xl px-3">
-          <h1 className="font-bold text-4xl mb-3 ">{wallet.name}</h1>
+      <div className="flex items-center gap-4 lg:flex-row flex-col">
+        <div className="flex justify-center lg:items-center flex-col bg-white w-full py-6 rounded-2xl px-3">
+          <h1 className="font-bold lg:text-4xl text-xl lg:mb-3 ">
+            {wallet.name}
+          </h1>
           <p className="text-3xl font-bold text-[#2563EB] my-4">
             {formatCurrency(wallet.currentBalance)}
           </p>
-          <p className="text-gray-400 flex flex-col justify-center items-center">
+          <p className="text-gray-400 flex flex-col justify-center lg:items-center">
             Created at{" "}
             <span className="font-bold">{formatDate(wallet.createdAt)}</span>
           </p>
@@ -216,7 +218,7 @@ export default function Wallet() {
 
         <div className="actions-section bg-white w-full py-13 rounded-2xl px-3">
           <h1 className="text-3xl font-bold mb-6">Quick Actions</h1>
-          <div className="flex justify-center items-center gap-4">
+          <div className="flex justify-center lg:flex-row flex-col items-center gap-4">
             <button
               className="bg-[#2563EB] py-3 px-4 w-full font-bold rounded-md flex justify-center items-center text-white cursor-pointer"
               onClick={() => {
@@ -240,7 +242,7 @@ export default function Wallet() {
       </div>
       <div className="bg-white p-8 rounded-2xl mt-5 shadow-2xl ">
         <h1 className="font-bold text-2xl mb-3">🔗 Monitor Links</h1>
-        <p className="text-gray-400 text-lg mb-4">
+        <p className="text-gray-400 lg:text-lg text-sm mb-4">
           Generate shareable links to allow others to view (read-only) this
           wallet's balance and transactions.
         </p>
@@ -250,10 +252,10 @@ export default function Wallet() {
             {monitorLinks.map((link: linksProps) => (
               <div
                 key={link.token}
-                className="monitor-link-item flex justify-between gap-6"
+                className="monitor-link-item flex justify-between lg:flex-row flex-col gap-6"
               >
                 <div className="flex flex-col gap-2">
-                  <code>{`${window.location.origin}/monitor/${link.token}`}</code>
+                  <span className="truncate">{`${window.location.origin}/monitor/${link.token}`}</span>
                   <span className="text-xs text-gray-500">
                     Created {formatDate(link.createdAt)}
                   </span>
@@ -266,24 +268,24 @@ export default function Wallet() {
                     {copiedLink === link.token ? (
                       <div className="flex items-center justify-center gap-2">
                         <span>
-                          <Check />
+                          <Check size={15} />
                         </span>
-                        <span className="text-lg">Copied</span>
+                        <span className="text-sm lg:text-lg">Copied</span>
                       </div>
                     ) : (
                       <div className="flex items-center justify-center gap-2">
                         <span>
-                          <Copy />
+                          <Copy size={15} />
                         </span>
-                        <span className="text-lg">Copy</span>
+                        <span className="text-sm lg:text-lg">Copy</span>
                       </div>
                     )}
                   </button>
                   <button
-                    className="btn-delete-small flex items-center gap-2 cursor-pointer"
+                    className="btn-delete-small flex lg:text-lg text-sm items-center gap-2 cursor-pointer"
                     onClick={() => deleteMonitorLink(link.token)}
                   >
-                    <Undo2 /> Revoke
+                    <Undo2 size={15} /> Revoke
                   </button>
                 </div>
               </div>
@@ -291,7 +293,7 @@ export default function Wallet() {
           </div>
         ) : (
           <button
-            className=" disabled:bg-gray-500 border bg-[#2563EB] text-white cursor-pointer rounded-md p-4"
+            className=" disabled:bg-gray-500 border bg-[#2563EB] text-white cursor-pointer rounded-md lg:p-4 p-2 lg:text-base text-sm"
             onClick={generateMonitorLink}
             disabled={generatingLink}
           >
@@ -301,7 +303,7 @@ export default function Wallet() {
 
         {monitorLinks.length > 0 && (
           <button
-            className="btn-secondary mt-2 disabled:bg-gray-500 border bg-[#2563EB] text-white cursor-pointer rounded-md p-4"
+            className="btn-secondary mt-2 disabled:bg-gray-500 border bg-[#2563EB] text-white cursor-pointer rounded-md lg:text-base text-sm lg:p-4 p-2"
             onClick={generateMonitorLink}
             disabled={generatingLink}
           >
@@ -323,7 +325,7 @@ export default function Wallet() {
             {transactions.map((tx: transactionProps) => (
               <div
                 key={tx._id}
-                className="flex items-center justify-between group cursor-pointer"
+                className="flex lg:items-center gap-2 lg:flex-row flex-col justify-between group cursor-pointer"
               >
                 <div className="flex flex-col gap-2">
                   <span
@@ -338,7 +340,7 @@ export default function Wallet() {
                     {formatDate(tx.createdAt)}
                   </span>
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col lg:items-center">
                   <span
                     className={`transaction-amount text-gray-700 text-lg ${tx.type}`}
                   >
