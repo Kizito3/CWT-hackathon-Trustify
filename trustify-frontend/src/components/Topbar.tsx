@@ -35,7 +35,7 @@ const TopBar = () => {
             </p>
           </div>
           <div className="text-right" onClick={logout}>
-            <p className="text-sm font-bold text-red-500 group-hover:text-blue-600 transition-colors">
+            <p className="text-sm font-semibold text-red-500 group-hover:text-blue-600 transition-colors">
               logout
             </p>
           </div>
