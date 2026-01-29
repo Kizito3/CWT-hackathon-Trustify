@@ -14,8 +14,8 @@ const Sidebar = () => {
       {/* Navigation Links */}
       <nav className="flex flex-col gap-8 flex-1 justify-center">
         <SidebarLink to="/dashboard" icon={<LayoutPanelLeft size={24} />} />
-        <SidebarLink to="/dashboard/wallet" icon={<Wallet size={24} />} />
-        <SidebarLink to="/dashboard/grid" icon={<LayoutGrid size={24} />} />
+        {/* <SidebarLink to="/dashboard/wallet" icon={<Wallet size={24} />} />
+        <SidebarLink to="/dashboard/grid" icon={<LayoutGrid size={24} />} /> */}
       </nav>
 
       {/* Bottom Profile/Settings Placeholder (Optional) */}

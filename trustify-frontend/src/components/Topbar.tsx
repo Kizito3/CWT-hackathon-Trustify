@@ -1,6 +1,8 @@
+import { useAuth } from "@/context/AuthContext";
 import { Search, Bell } from "lucide-react";
 
 const TopBar = () => {
+  const { user } = useAuth();
   return (
     <div className="flex items-center justify-between w-full h-full">
       {/* 1. SEARCH BAR (Centered) */}
@@ -29,7 +31,7 @@ const TopBar = () => {
         <div className="flex items-center gap-3 cursor-pointer group">
           <div className="text-right">
             <p className="text-sm font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
-              Ethan. J
+              {user?.email}
             </p>
           </div>
           <div className="w-10 h-10 rounded-full bg-slate-200 border-2 border-white overflow-hidden shadow-sm">

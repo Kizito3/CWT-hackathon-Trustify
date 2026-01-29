@@ -24,11 +24,11 @@ instance.interceptors.response.use(
     if (error.response?.status === 401 || error.response?.status === 403) {
       localStorage.removeItem("token");
       if (
-        window.location.pathname !== "/login" &&
+        window.location.pathname !== "/" &&
         window.location.pathname !== "/register" &&
         !window.location.pathname.startsWith("/monitor/")
       ) {
-        window.location.href = "/login";
+        window.location.href = "/";
       }
     }
     return Promise.reject(error);

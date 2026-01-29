@@ -13,7 +13,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState(null);
-  const [isLoading, setIsloading] = useState(false);
+  const [isLoading, setIsloading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -36,10 +36,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const response = await instance.post(
-      "https://accountability-tracker-lps3.onrender.com/api/auth/login",
-      { email, password },
-    );
+    const response = await instance.post("/auth/login", {
+      email,
+      password,
+    });
     localStorage.setItem("token", response.data.token);
     setUser(response.data.user);
     return response.data;

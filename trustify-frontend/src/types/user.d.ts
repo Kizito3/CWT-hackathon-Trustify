@@ -9,5 +9,30 @@ interface AuthProviderProps {
 interface User {
   _id: string;
   email: string;
-  full_name: string;
+  password: string;
+}
+
+interface walletsProps {
+  _id: string;
+  name: string;
+  createdAt: string;
+  currentBalance: number;
+}
+
+interface transactionProps {
+  _id: string;
+  type: string;
+  description: string;
+  createdAt: string;
+  amount: number;
+  balanceAfter: number;
+}
+
+interface linksProps {
+  _id: string;
+  token: string;
+  walletId?: string;
+  walletName?: string;
+  monitorUrl?: string;
+  createdAt: string;
 }

@@ -22,7 +22,7 @@ export default function SignUp() {
     try {
       await register(email, password);
       toast.success("Welcome back!");
-      navigate("/dashboard");
+      navigate("/");
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const message =

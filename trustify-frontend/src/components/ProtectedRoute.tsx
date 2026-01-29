@@ -7,10 +7,9 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading) {
     return (
-      <div className="loading-container">
-        <div className="spinner"></div>
-        <p>Loading...</p>
-        <BounceLoader />
+      <div className="flex justify-center items-center flex-col">
+        <BounceLoader className="text-[#2563EB]" color="#2563EB" size={100} />
+        <h1 className="text-[#2563EB] text-lg font-bold mt-4">Loading....</h1>
       </div>
     );
   }
