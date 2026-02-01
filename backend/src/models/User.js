@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      index: false, // Remove duplicate index
     },
     passwordHash: {
       type: String,
