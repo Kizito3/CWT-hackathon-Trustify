@@ -20,8 +20,8 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://cwt-hackathon-trustify.onrender.com",
-      "https://cwt-hackathon-trustify-nxoz22m92-kizito3s-projects.vercel.app/",
-      "https://cwt-hackathon-trustify.vercel.app/",
+      "https://cwt-hackathon-trustify-nxoz22m92-kizito3s-projects.vercel.app",
+      "https://cwt-hackathon-trustify.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
