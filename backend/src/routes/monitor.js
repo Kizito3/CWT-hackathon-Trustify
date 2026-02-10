@@ -91,7 +91,7 @@ router.get("/links", authenticateToken, async (req, res) => {
         token: link.token,
         walletId: link.walletId._id,
         walletName: link.walletId.name,
-        monitorUrl: `${req.protocol}://${req.get("host")}/api/monitor/${link.token}`,
+        monitorUrl: `${baseUrl}/monitor/${link.token}`,
         createdAt: link.createdAt,
       }));
 
