@@ -1,6 +1,6 @@
 # Accountability Wallet API Documentation
 
-**Base URL:** `https://accountability-tracker-lps3.onrender.com/api`
+**Base URL:** `https://cwt-hackathon-trustify.onrender.com/api`
 
 ⚠️ **Important:** Free tier sleeps after 15 minutes of inactivity. First request may take 30 seconds to wake up.
 
@@ -23,6 +23,7 @@ Get token from `/auth/register` or `/auth/login` endpoints.
 ### 🔐 Authentication Routes
 
 #### Register New Admin
+
 ```http
 POST /auth/register
 Content-Type: application/json
@@ -34,6 +35,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "message": "User registered successfully",
@@ -47,6 +49,7 @@ Content-Type: application/json
 ```
 
 #### Login
+
 ```http
 POST /auth/login
 Content-Type: application/json
@@ -60,12 +63,14 @@ Content-Type: application/json
 **Response:** Same as register
 
 #### Verify Token
+
 ```http
 GET /auth/verify
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "valid": true,
@@ -81,12 +86,14 @@ Authorization: Bearer <token>
 ### 💰 Wallet Routes (All require authentication)
 
 #### Get All Wallets
+
 ```http
 GET /wallets
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "wallets": [
@@ -101,6 +108,7 @@ Authorization: Bearer <token>
 ```
 
 #### Create New Wallet
+
 ```http
 POST /wallets
 Authorization: Bearer <token>
@@ -113,6 +121,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Wallet created successfully",
@@ -127,12 +136,14 @@ Content-Type: application/json
 ```
 
 #### Get Single Wallet
+
 ```http
 GET /wallets/:id
 Authorization: Bearer <token>
 ```
 
 #### Add Inflow (Deposit Money)
+
 ```http
 POST /wallets/:id/inflow
 Authorization: Bearer <token>
@@ -145,6 +156,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Inflow added successfully",
@@ -161,6 +173,7 @@ Content-Type: application/json
 ```
 
 #### Add Outflow (Withdraw Money)
+
 ```http
 POST /wallets/:id/outflow
 Authorization: Bearer <token>
@@ -175,6 +188,7 @@ Content-Type: application/json
 **Response:** Same format as inflow
 
 **Error if insufficient balance:**
+
 ```json
 {
   "error": "Insufficient balance"
@@ -182,12 +196,14 @@ Content-Type: application/json
 ```
 
 #### Get Transaction History
+
 ```http
 GET /wallets/:id/transactions
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "transactions": [
@@ -212,6 +228,7 @@ Authorization: Bearer <token>
 ```
 
 #### Delete Wallet
+
 ```http
 DELETE /wallets/:id
 Authorization: Bearer <token>
@@ -222,12 +239,14 @@ Authorization: Bearer <token>
 ### 👁️ Monitor Routes
 
 #### Generate Monitor Link (Admin Only)
+
 ```http
 POST /monitor/generate/:walletId
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Monitor link created successfully",
@@ -243,12 +262,14 @@ Authorization: Bearer <token>
 Share the `monitorUrl` with people you want to give read-only access to!
 
 #### Get All Monitor Links (Admin Only)
+
 ```http
 GET /monitor/links
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "links": [
@@ -265,6 +286,7 @@ Authorization: Bearer <token>
 ```
 
 #### Delete Monitor Link (Admin Only)
+
 ```http
 DELETE /monitor/links/:token
 Authorization: Bearer <token>
@@ -273,11 +295,13 @@ Authorization: Bearer <token>
 Revokes access for monitors using that link.
 
 #### View Wallet (Public - No Auth Required)
+
 ```http
 GET /monitor/:token
 ```
 
 **Response:**
+
 ```json
 {
   "wallet": {
@@ -292,11 +316,13 @@ GET /monitor/:token
 ```
 
 #### View Transactions (Public - No Auth Required)
+
 ```http
 GET /monitor/:token/transactions
 ```
 
 **Response:**
+
 ```json
 {
   "transactions": [...],
@@ -309,6 +335,7 @@ GET /monitor/:token/transactions
 ## Error Responses
 
 ### 400 Bad Request
+
 ```json
 {
   "error": "Email and password required"
@@ -316,6 +343,7 @@ GET /monitor/:token/transactions
 ```
 
 ### 401 Unauthorized
+
 ```json
 {
   "error": "Access token required"
@@ -323,6 +351,7 @@ GET /monitor/:token/transactions
 ```
 
 ### 403 Forbidden
+
 ```json
 {
   "error": "Invalid or expired token"
@@ -330,6 +359,7 @@ GET /monitor/:token/transactions
 ```
 
 ### 404 Not Found
+
 ```json
 {
   "error": "Wallet not found"
@@ -337,6 +367,7 @@ GET /monitor/:token/transactions
 ```
 
 ### 500 Internal Server Error
+
 ```json
 {
   "error": "Internal server error"
@@ -348,31 +379,37 @@ GET /monitor/:token/transactions
 ## Frontend Integration Tips
 
 ### 1. Store JWT Token
+
 After login/register, store the token in localStorage:
+
 ```javascript
-localStorage.setItem('token', response.token);
+localStorage.setItem("token", response.token);
 ```
 
 ### 2. Add Token to Requests
-```javascript
-const token = localStorage.getItem('token');
 
-fetch('https://accountability-tracker-lps3.onrender.com/api/wallets', {
+```javascript
+const token = localStorage.getItem("token");
+
+fetch("https://accountability-tracker-lps3.onrender.com/api/wallets", {
   headers: {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json'
-  }
-})
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  },
+});
 ```
 
 ### 3. Handle Free Tier Sleep
+
 Show a loading indicator for the first request:
+
 ```javascript
 // First request after sleep might take 30 seconds
 const response = await fetch(apiUrl);
 ```
 
 ### 4. Monitor Links are Public
+
 Monitor links work WITHOUT authentication - perfect for sharing with accountability partners!
 
 ---
@@ -387,7 +424,3 @@ Monitor links work WITHOUT authentication - perfect for sharing with accountabil
 6. **Monitors visit URL** → See wallet balance & transaction history (read-only)
 
 ---
-
-## Questions?
-
-Contact the backend developer or check the GitHub repo for more details.

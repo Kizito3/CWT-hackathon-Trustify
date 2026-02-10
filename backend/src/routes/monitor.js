@@ -26,12 +26,13 @@ router.post("/generate/:walletId", authenticateToken, async (req, res) => {
     if (!wallet) {
       return res.status(404).json({ error: "Wallet not found" });
     }
-
+    const baseUrl =
+      process.env.APP_URL || `${req.protocol}://${req.get("host")}`;
     // Check if monitor link already exists
     const existingLink = await MonitorLink.findOne({ walletId });
 
     if (existingLink) {
-      const monitorUrl = `${req.protocol}://${req.get("host")}/api/monitor/${existingLink.token}`;
+      const monitorUrl = `${baseUrl}/monitor/${existingLink.token}`;
 
       return res.json({
         message: "Monitor link already exists",
@@ -53,7 +54,8 @@ router.post("/generate/:walletId", authenticateToken, async (req, res) => {
       token,
     });
 
-    const monitorUrl = `${req.protocol}://${req.get("host")}/api/monitor/${token}`;
+    const monitorUrl = `${baseUrl}/monitor/${token}`;
+    // const monitorUrl = `${req.protocol}://${req.get("host")}/api/monitor/${token}`;
 
     res.status(201).json({
       message: "Monitor link created successfully",
