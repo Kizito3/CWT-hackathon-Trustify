@@ -28,6 +28,7 @@ router.post("/generate/:walletId", authenticateToken, async (req, res) => {
     }
     const baseUrl =
       process.env.APP_URL || `${req.protocol}://${req.get("host")}`;
+
     // Check if monitor link already exists
     const existingLink = await MonitorLink.findOne({ walletId });
 
@@ -55,6 +56,7 @@ router.post("/generate/:walletId", authenticateToken, async (req, res) => {
     });
 
     const monitorUrl = `${baseUrl}/monitor/${token}`;
+
     // const monitorUrl = `${req.protocol}://${req.get("host")}/api/monitor/${token}`;
 
     res.status(201).json({

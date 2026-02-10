@@ -7,12 +7,18 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { BounceLoader } from "react-spinners";
 
+type MonitorLinkItem = {
+  token: string;
+  walletId: string;
+  createdAt: string;
+};
+
 export default function Wallet() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [wallet, setWallet] = useState<walletsProps | null>(null);
   const [transactions, setTransactions] = useState([]);
-  const [monitorLinks, setMonitorLinks] = useState([]);
+  const [monitorLinks, setMonitorLinks] = useState<MonitorLinkItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showTransactionModal, setShowTransactionModal] = useState(false);
@@ -48,7 +54,9 @@ export default function Wallet() {
 
   const fetchMonitorLinks = useCallback(async () => {
     try {
-      const response = await instance.get("/monitor/links");
+      const response = await instance.get<{ links: MonitorLinkItem[] }>(
+        "/monitor/links",
+      );
       const walletLinks = response.data.links.filter(
         (link: { walletId: string | undefined }) => link.walletId === id,
       );
@@ -92,26 +100,45 @@ export default function Wallet() {
     }
   };
 
-  const generateMonitorLink = async () => {
+  const generateMonitorLink = async (): Promise<void> => {
+    if (!id) return;
+
     setGeneratingLink(true);
     setError("");
 
     try {
-      const response = await instance.post(`/monitor/generate/${id}`);
-      fetchMonitorLinks();
-      // Show the link
-      toast.success(
-        `Monitor link generated!\n\nShare this URL:\n${window.location.origin}/monitor/${response.data.token}`,
+      const response = await instance.post<{ token: string }>(
+        `/monitor/generate/${id}`,
       );
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
+
+      const newToken = response.data.token;
+
+      // ✅ optimistic update so it shows immediately
+      setMonitorLinks((prev) => [
+        {
+          token: newToken,
+          walletId: id,
+          createdAt: new Date().toISOString(),
+        },
+        ...prev,
+      ]);
+
+      // ✅ keep truth from backend (includes real createdAt)
+      await fetchMonitorLinks();
+
+      const APP_URL = import.meta.env.VITE_APP_URL || window.location.origin;
+      const shareUrl = `${APP_URL}/monitor/${newToken}`;
+
+      toast.success(`Monitor link generated!\n\nShare this URL:\n${shareUrl}`);
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
         const message =
-          error.response?.data?.error ||
-          error.response?.data?.message ||
-          "failed to create wallet";
+          err.response?.data?.error ||
+          err.response?.data?.message ||
+          "failed to generate monitor link";
         toast.error(message);
       } else {
-        toast.error("failed to delete wallet");
+        toast.error("failed to generate monitor link");
       }
     } finally {
       setGeneratingLink(false);
@@ -119,7 +146,8 @@ export default function Wallet() {
   };
 
   const copyToClipboard = async (token: string) => {
-    const url = `${window.location.origin}/monitor/${token}`;
+    const APP_URL = import.meta.env.VITE_APP_URL || window.location.origin;
+    const url = `${APP_URL}/monitor/${token}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopiedLink(token);
@@ -249,7 +277,7 @@ export default function Wallet() {
 
         {monitorLinks.length > 0 ? (
           <div className="bg-gray-50  p-4 rounded-lg">
-            {monitorLinks.map((link: linksProps) => (
+            {monitorLinks.map((link: MonitorLinkItem) => (
               <div
                 key={link.token}
                 className="monitor-link-item flex justify-between lg:flex-row flex-col gap-6"
