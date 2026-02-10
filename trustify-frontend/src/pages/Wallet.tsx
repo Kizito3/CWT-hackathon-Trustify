@@ -126,8 +126,7 @@ export default function Wallet() {
       // ✅ keep truth from backend (includes real createdAt)
       await fetchMonitorLinks();
 
-      const APP_URL = import.meta.env.VITE_APP_URL || window.location.origin;
-      const shareUrl = `${APP_URL}/monitor/${newToken}`;
+      const shareUrl = `${window.location.origin}/monitor/${newToken}`;
 
       toast.success(`Monitor link generated!\n\nShare this URL:\n${shareUrl}`);
     } catch (err: unknown) {
@@ -146,8 +145,7 @@ export default function Wallet() {
   };
 
   const copyToClipboard = async (token: string) => {
-    const APP_URL = import.meta.env.VITE_APP_URL || window.location.origin;
-    const url = `${APP_URL}/monitor/${token}`;
+    const url = `${window.location.origin}/monitor/${token}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopiedLink(token);
